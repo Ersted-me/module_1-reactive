@@ -1,0 +1,5 @@
+server:
+  port: 8082
+  reactive:
+    session:
+      max-sessions: 1000

@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: module_1-reactive
+
+  profiles:
+    default: netty
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: postgres
