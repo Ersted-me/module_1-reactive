@@ -1,15 +1,16 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.5'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version "$orgSpringframeworkBoot"
+    id 'io.spring.dependency-management' version "$ioSpringDependencyManagement"
+    id 'org.openapi.generator' version "$orgOpenapiGenerator"
 }
 
 group = 'ru.ersted'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of("$javaVersion")
     }
 }
 
@@ -28,8 +29,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework:spring-jdbc'
-    implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
-    runtimeOnly ("org.flywaydb:flyway-database-postgresql")
+    implementation "org.postgresql:r2dbc-postgresql:$orgPostgresqlR2dbcPostgresql"
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
     implementation 'org.postgresql:postgresql'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -43,10 +44,48 @@ dependencies {
 
     testImplementation("org.testcontainers:postgresql")
 
-    implementation 'org.mapstruct:mapstruct:1.6.3'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+    implementation "org.mapstruct:mapstruct:$orgMapstructMapstruct"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$orgMapstructMapstructProcessor"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+bootJar {
+    mainClass = 'ru.ersted.module_1spirngmvc.Module1SpirngMvcApplication'
+    archiveBaseName.set('myapp-reactive')
+    archiveVersion.set('')
+    archiveClassifier.set('')
+}
+
+openApiGenerate {
+    generatorName = 'java'
+    inputSpec = file('src/main/resources/api/openapi.yaml')
+            .toURI()
+            .toString()
+    outputDir = layout.buildDirectory
+            .dir('generated')
+            .get().asFile.absolutePath
+
+    modelPackage = 'ru.ersted.module_1reactive.dto.generated'
+    apiPackage = 'com.example.stub.api'
+
+    globalProperties = [models: '']
+
+    configOptions = [
+            useJakartaEe              : 'true',
+            constructorWithAllArgs    : 'true',
+            dateLibrary               : 'java8',
+            library                   : 'resttemplate',
+            generateModelTests        : 'false',
+            generateModelDocumentation: 'false',
+            generateApiTests          : 'false',
+            generateApiDocumentation  : 'false'
+    ]
+}
+
+compileJava {
+    dependsOn tasks.openApiGenerate
+    source layout.buildDirectory.dir('generated/src/main/java')
 }

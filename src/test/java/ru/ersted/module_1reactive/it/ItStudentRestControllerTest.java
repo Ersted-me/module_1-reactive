@@ -14,8 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Mono;
 import ru.ersted.module_1reactive.config.DatabaseConfig;
-import ru.ersted.module_1reactive.dto.student.rq.StudentCreateRq;
-import ru.ersted.module_1reactive.dto.student.rq.StudentUpdateRq;
+import ru.ersted.module_1reactive.dto.generated.StudentCreateRq;
+import ru.ersted.module_1reactive.dto.generated.StudentUpdateRq;
 import ru.ersted.module_1reactive.entity.Course;
 import ru.ersted.module_1reactive.entity.Student;
 import ru.ersted.module_1reactive.entity.StudentsCourses;
@@ -59,7 +59,9 @@ class ItStudentRestControllerTest {
     @DisplayName("Test create student functionality")
     @DirtiesContext
     void givenStudentCreateRq_whenCreate_thenSuccessResponse() throws Exception {
-        StudentCreateRq rq = new StudentCreateRq("John Doe", "john.doe@example.com");
+        StudentCreateRq rq = new StudentCreateRq();
+        rq.setName("John Doe");
+        rq.setEmail("john.doe@example.com");
 
         WebTestClient.ResponseSpec result = webClient.post()
                 .uri("/api/v1/students")
@@ -164,7 +166,9 @@ class ItStudentRestControllerTest {
         Student student = new Student(null, "Mike Noise", "mike.noise@example.com");
         studentRepository.save(student).block();
 
-        StudentUpdateRq rq = new StudentUpdateRq("John Doe", "john.doe@example.com");
+        StudentUpdateRq rq = new StudentUpdateRq();
+        rq.setName("John Doe");
+        rq.setEmail("john.doe@example.com");
 
         WebTestClient.ResponseSpec result = webClient.put()
                 .uri("/api/v1/students/%d".formatted(student.getId()))

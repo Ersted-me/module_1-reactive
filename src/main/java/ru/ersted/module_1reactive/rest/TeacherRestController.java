@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.ersted.module_1reactive.dto.course.CourseDto;
-import ru.ersted.module_1reactive.dto.teacher.TeacherDto;
-import ru.ersted.module_1reactive.dto.teacher.rq.TeacherCreateRq;
+import ru.ersted.module_1reactive.dto.generated.CourseDto;
+import ru.ersted.module_1reactive.dto.generated.TeacherDto;
+import ru.ersted.module_1reactive.dto.generated.TeacherCreateRq;
 import ru.ersted.module_1reactive.service.CourseService;
 import ru.ersted.module_1reactive.service.TeacherService;
 

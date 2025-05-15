@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Mono;
 import ru.ersted.module_1reactive.config.DatabaseConfig;
-import ru.ersted.module_1reactive.dto.teacher.rq.TeacherCreateRq;
+import ru.ersted.module_1reactive.dto.generated.TeacherCreateRq;
 import ru.ersted.module_1reactive.entity.*;
 import ru.ersted.module_1reactive.repository.*;
 
@@ -50,7 +50,8 @@ class ItTeacherRestControllerTest {
     @DisplayName("Test create teacher functionality")
     @DirtiesContext
     void givenTeacherCreateRq_whenCreate_thenSuccessResponse() throws Exception {
-        TeacherCreateRq rq = new TeacherCreateRq("Professor Smith");
+        TeacherCreateRq rq = new TeacherCreateRq();
+        rq.setName("Professor Smith");
 
         WebTestClient.ResponseSpec result = webClient.post()
                 .uri("/api/v1/teachers")

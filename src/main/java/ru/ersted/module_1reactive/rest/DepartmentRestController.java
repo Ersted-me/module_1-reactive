@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import ru.ersted.module_1reactive.dto.department.DepartmentDto;
-import ru.ersted.module_1reactive.dto.department.rq.DepartmentCreateRq;
+import ru.ersted.module_1reactive.dto.generated.DepartmentDto;
+import ru.ersted.module_1reactive.dto.generated.DepartmentCreateRq;
 import ru.ersted.module_1reactive.service.DepartmentService;
 
 @RestController

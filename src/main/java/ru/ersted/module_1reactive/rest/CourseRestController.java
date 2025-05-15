@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.ersted.module_1reactive.dto.course.CourseDto;
-import ru.ersted.module_1reactive.dto.course.rq.CourseCreateRq;
+import ru.ersted.module_1reactive.dto.generated.CourseDto;
+import ru.ersted.module_1reactive.dto.generated.CourseCreateRq;
 import ru.ersted.module_1reactive.service.CourseService;
 
 @RequiredArgsConstructor

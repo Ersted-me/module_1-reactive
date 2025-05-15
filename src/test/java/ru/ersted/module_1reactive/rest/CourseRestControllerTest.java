@@ -13,10 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.ersted.module_1reactive.dto.course.CourseDto;
-import ru.ersted.module_1reactive.dto.course.rq.CourseCreateRq;
-import ru.ersted.module_1reactive.dto.student.StudentShortDto;
-import ru.ersted.module_1reactive.dto.teacher.TeacherShortDto;
+import ru.ersted.module_1reactive.dto.generated.CourseDto;
+import ru.ersted.module_1reactive.dto.generated.CourseCreateRq;
+import ru.ersted.module_1reactive.dto.generated.StudentShortDto;
+import ru.ersted.module_1reactive.dto.generated.TeacherShortDto;
 import ru.ersted.module_1reactive.service.CourseService;
 
 import java.util.Collections;
@@ -40,8 +40,12 @@ class CourseRestControllerTest {
     @Test
     @DisplayName("Test create course functionality")
     void givenCourseCreteRq_whenCreateCourse_thenSuccessResponse() throws Exception {
-        CourseCreateRq rq = new CourseCreateRq("Math");
-        CourseDto dto = new CourseDto(1L, "Math", null, null);
+        CourseCreateRq rq = new CourseCreateRq();
+        rq.setTitle("Math");
+
+        CourseDto dto = new CourseDto();
+        dto.setId(1L);
+        dto.setTitle("Math");
 
         BDDMockito.given(courseService.save(rq)).willReturn(Mono.just(dto));
 
@@ -65,9 +69,21 @@ class CourseRestControllerTest {
     @Test
     @DisplayName("Test find all courses functionality")
     void whenFindAll_thenSuccessResponse() throws Exception {
-        TeacherShortDto teacher = new TeacherShortDto(1L, "Professor Smith");
-        StudentShortDto student = new StudentShortDto(1L, "John Doe");
-        List<CourseDto> list = Collections.singletonList(new CourseDto(1L, "Math", teacher, Set.of(student)));
+        TeacherShortDto teacher = new TeacherShortDto();
+        teacher.setId(1L);
+        teacher.setName("Professor Smith");
+
+        StudentShortDto student = new StudentShortDto();
+        student.setId(1L);
+        student.setName("John Doe");
+
+        CourseDto course = new CourseDto();
+        course.setId(1L);
+        course.setTitle("Math");
+        course.setTeacher(teacher);
+        course.setStudents(Set.of(student));
+
+        List<CourseDto> list = Collections.singletonList(course);
 
         BDDMockito.given(courseService.findAll()).willReturn(Flux.fromIterable(list));
 

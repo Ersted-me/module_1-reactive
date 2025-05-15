@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class Course implements Persistable<Long> {
     private Teacher teacher;
 
     @Transient
-    private Set<Student> students;
+    private Set<Student> students = new HashSet<>();
 
     public Course(Long id, String title, Long teacherId) {
         this.id = id;

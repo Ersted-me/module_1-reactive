@@ -13,11 +13,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.ersted.module_1reactive.dto.course.CourseShortDto;
-import ru.ersted.module_1reactive.dto.student.StudentDto;
-import ru.ersted.module_1reactive.dto.student.rq.StudentCreateRq;
-import ru.ersted.module_1reactive.dto.student.rq.StudentUpdateRq;
-import ru.ersted.module_1reactive.dto.teacher.TeacherShortDto;
+import ru.ersted.module_1reactive.dto.generated.CourseShortDto;
+import ru.ersted.module_1reactive.dto.generated.StudentDto;
+import ru.ersted.module_1reactive.dto.generated.StudentCreateRq;
+import ru.ersted.module_1reactive.dto.generated.StudentUpdateRq;
+import ru.ersted.module_1reactive.dto.generated.TeacherShortDto;
 import ru.ersted.module_1reactive.exception.NotFoundException;
 import ru.ersted.module_1reactive.service.CourseService;
 import ru.ersted.module_1reactive.service.StudentService;
@@ -47,8 +47,14 @@ class StudentRestControllerTest {
     @Test
     @DisplayName("Test create student functionality")
     void givenStudentCreateRq_whenCreate_thenSuccessResponse() throws Exception {
-        StudentCreateRq rq = new StudentCreateRq("John Doe", "john.doe@example.com");
-        StudentDto dto = new StudentDto(1L, "John Doe", "john.doe@example.com", null);
+        StudentCreateRq rq = new StudentCreateRq();
+        rq.setName("John Doe");
+        rq.setEmail("john.doe@example.com");
+
+        StudentDto dto = new StudentDto();
+        dto.setId(1L);
+        dto.setName("John Doe");
+        dto.setEmail("john.doe@example.com");
 
         BDDMockito.given(studentService.create(any(StudentCreateRq.class)))
                 .willReturn(Mono.just(dto));
@@ -73,8 +79,22 @@ class StudentRestControllerTest {
     @Test
     @DisplayName("Test findAll student functionality")
     void whenFindAll_thenSuccessResponse() throws Exception {
-        List<StudentDto> list = List.of(new StudentDto(1L, "John Doe", "john.doe@example.com",
-                Set.of(new CourseShortDto(1L, "Math", new TeacherShortDto(1L, "John Pohn")))));
+        TeacherShortDto teacher = new TeacherShortDto();
+        teacher.setId(1L);
+        teacher.setName("John Pohn");
+
+        CourseShortDto course = new CourseShortDto();
+        course.setId(1L);
+        course.setTitle("Math");
+        course.setTeacher(teacher);
+
+        StudentDto student = new StudentDto();
+        student.setId(1L);
+        student.setName("John Doe");
+        student.setEmail("john.doe@example.com");
+        student.setCourses(Set.of(course));
+
+        List<StudentDto> list = List.of(student);
 
         BDDMockito.given(studentService.findAll())
                 .willReturn(Flux.fromIterable(list));
@@ -97,12 +117,25 @@ class StudentRestControllerTest {
     @Test
     @DisplayName("Test find by id student functionality")
     void givenStudentId_whenFindById_thenSuccessResponse() throws Exception {
-        StudentDto dto = new StudentDto(1L, "John Doe", "john.doe@example.com",
-                Set.of(new CourseShortDto(1L, "Math", new TeacherShortDto(1L, "John Pohn"))));
+        TeacherShortDto teacher = new TeacherShortDto();
+        teacher.setId(1L);
+        teacher.setName("John Pohn");
+
+        CourseShortDto course = new CourseShortDto();
+        course.setId(1L);
+        course.setTitle("Math");
+        course.setTeacher(teacher);
+
+        StudentDto student = new StudentDto();
+        student.setId(1L);
+        student.setName("John Doe");
+        student.setEmail("john.doe@example.com");
+        student.setCourses(Set.of(course));
+
         Long studentId = 1L;
 
         BDDMockito.given(studentService.find(studentId))
-                .willReturn(Mono.just(dto));
+                .willReturn(Mono.just(student));
 
 
         WebTestClient.ResponseSpec result = webClient.get()
@@ -147,8 +180,14 @@ class StudentRestControllerTest {
     @Test
     @DisplayName("Test update student functionality")
     void givenStudentUpdateRq_whenUpdate_thenSuccessResponse() throws Exception {
-        StudentUpdateRq rq = new StudentUpdateRq("John Doe", "john.doe@example.com");
-        StudentDto dto = new StudentDto(1L, "John Doe", "john.doe@example.com", null);
+        StudentUpdateRq rq = new StudentUpdateRq();
+        rq.setName("John Doe");
+        rq.setEmail("john.doe@example.com");
+
+        StudentDto dto = new StudentDto();
+        dto.setId(1L);
+        dto.setName("John Doe");
+        dto.setEmail("john.doe@example.com");
 
         Long studentId = 1L;
 
@@ -192,8 +231,21 @@ class StudentRestControllerTest {
     void givenStudentIdAndCourseId_whenAddCourse_thenSuccessResponse() throws Exception {
         Long studentId = 1L;
         Long courseId = 1L;
-        StudentDto dto = new StudentDto(1L, "John Doe", "john.doe@example.com",
-                Set.of(new CourseShortDto(1L, "Math", new TeacherShortDto(1L, "John Pohn"))));
+
+        TeacherShortDto teacher = new TeacherShortDto();
+        teacher.setId(1L);
+        teacher.setName("John Pohn");
+
+        CourseShortDto course = new CourseShortDto();
+        course.setId(1L);
+        course.setTitle("Math");
+        course.setTeacher(teacher);
+
+        StudentDto dto = new StudentDto();
+        dto.setId(studentId);
+        dto.setName("John Doe");
+        dto.setEmail("john.doe@example.com");
+        dto.setCourses(Set.of(course));
 
         BDDMockito.given(studentService.addCourse(courseId, studentId)).willReturn(Mono.just(dto));
 
@@ -217,7 +269,17 @@ class StudentRestControllerTest {
     @DisplayName("Test find all student's courses functionality")
     void givenStudentId_whenFindCourses_thenSuccessResponse() throws Exception {
         Long studentId = 1L;
-        Set<CourseShortDto> courses = Set.of(new CourseShortDto(1L, "Math", new TeacherShortDto(1L, "John Pohn")));
+
+        TeacherShortDto teacher = new TeacherShortDto();
+        teacher.setId(1L);
+        teacher.setName("John Pohn");
+
+        CourseShortDto course = new CourseShortDto();
+        course.setId(1L);
+        course.setTitle("Math");
+        course.setTeacher(teacher);
+
+        Set<CourseShortDto> courses = Set.of(course);
 
         BDDMockito.given(courseService.findAllByStudentId(studentId)).willReturn(Flux.fromIterable(courses));
 

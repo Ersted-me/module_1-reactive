@@ -1,9 +1,9 @@
 package ru.ersted.module_1reactive.mapper;
 
 import org.mapstruct.Mapper;
-import ru.ersted.module_1reactive.dto.department.DepartmentDto;
-import ru.ersted.module_1reactive.dto.department.DepartmentShortDto;
-import ru.ersted.module_1reactive.dto.department.rq.DepartmentCreateRq;
+import ru.ersted.module_1reactive.dto.generated.DepartmentDto;
+import ru.ersted.module_1reactive.dto.generated.DepartmentShortDto;
+import ru.ersted.module_1reactive.dto.generated.DepartmentCreateRq;
 import ru.ersted.module_1reactive.entity.Department;
 
 @Mapper(componentModel = "spring")

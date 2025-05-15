@@ -1,9 +1,9 @@
 package ru.ersted.module_1reactive.mapper;
 
 import org.mapstruct.Mapper;
-import ru.ersted.module_1reactive.dto.course.CourseDto;
-import ru.ersted.module_1reactive.dto.course.CourseShortDto;
-import ru.ersted.module_1reactive.dto.course.rq.CourseCreateRq;
+import ru.ersted.module_1reactive.dto.generated.CourseDto;
+import ru.ersted.module_1reactive.dto.generated.CourseShortDto;
+import ru.ersted.module_1reactive.dto.generated.CourseCreateRq;
 import ru.ersted.module_1reactive.entity.Course;
 
 

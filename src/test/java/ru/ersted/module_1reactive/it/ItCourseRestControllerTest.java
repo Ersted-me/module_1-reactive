@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Mono;
 import ru.ersted.module_1reactive.config.DatabaseConfig;
-import ru.ersted.module_1reactive.dto.course.rq.CourseCreateRq;
+import ru.ersted.module_1reactive.dto.generated.CourseCreateRq;
 import ru.ersted.module_1reactive.entity.Course;
 import ru.ersted.module_1reactive.entity.Student;
 import ru.ersted.module_1reactive.entity.StudentsCourses;
@@ -52,7 +52,8 @@ class ItCourseRestControllerTest {
     @DisplayName("Test create course functionality")
     @DirtiesContext
     void givenCourseCreteRq_whenCreateCourse_thenSuccessResponse() throws Exception {
-        CourseCreateRq rq = new CourseCreateRq("Math");
+        CourseCreateRq rq = new CourseCreateRq();
+        rq.setTitle("Math");
 
         WebTestClient.ResponseSpec result = webClient.post()
                 .uri("/api/v1/courses")

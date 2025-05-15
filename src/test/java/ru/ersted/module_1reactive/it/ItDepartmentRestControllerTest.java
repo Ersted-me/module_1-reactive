@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Mono;
 import ru.ersted.module_1reactive.config.DatabaseConfig;
-import ru.ersted.module_1reactive.dto.department.rq.DepartmentCreateRq;
+import ru.ersted.module_1reactive.dto.generated.DepartmentCreateRq;
 import ru.ersted.module_1reactive.entity.Department;
 import ru.ersted.module_1reactive.entity.Teacher;
 import ru.ersted.module_1reactive.repository.*;
@@ -47,7 +47,8 @@ class ItDepartmentRestControllerTest {
     @DisplayName("Test create department functionality")
     @DirtiesContext
     void givenDepartmentCreateRq_whenCreateDepartment_thenSuccessResponse() throws Exception {
-        DepartmentCreateRq rq = new DepartmentCreateRq("Computer Science");
+        DepartmentCreateRq rq = new DepartmentCreateRq();
+        rq.setName("Computer Science");
 
         WebTestClient.ResponseSpec result = webClient.post()
                 .uri("/api/v1/departments")

@@ -8,8 +8,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
-import ru.ersted.module_1reactive.dto.student.rq.StudentUpdateRq;
+import ru.ersted.module_1reactive.dto.generated.StudentUpdateRq;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class Student implements Persistable<Long> {
     private String email;
 
     @Transient
-    private Set<Course> courses;
+    private Set<Course> courses = new HashSet<>();
 
     public Student(Long id, String name, String email) {
         this.id = id;
@@ -40,12 +41,6 @@ public class Student implements Persistable<Long> {
     @Override
     public boolean isNew() {
         return Objects.isNull(id);
-    }
-
-    public Student update(StudentUpdateRq request) {
-        this.name = request.name();
-        this.email = request.email();
-        return this;
     }
 
 }
